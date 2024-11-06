@@ -1,15 +1,16 @@
 ﻿using maxVideo1.Model;
 
+
+
 namespace maxVideo1.Interfaces
 {
-    public interface INterfaceConteudo
+    public interface IConteudoRepository
     {
         Task<ConteudoModel> GetConteudoById(int Id);
         Task<IEnumerable<ConteudoModel>> GetConteudosAsync();
-        Task AddConteudoAsync(ConteudoModel conteudo);
-        Task UpdateConteudoAsync(ConteudoModel conteudo);
-        Task DeleteConteudoAsync(int id);
-        Task SaveChangesAsync();
+        Task <ConteudoModel> AddConteudoAsync(ConteudoModel conteudo, IFormFile videoFile);
+        Task <ConteudoModel>UpdateConteudoAsync(ConteudoModel conteudo);
+        Task <ConteudoModel>DeleteConteudoAsync(int id);
         
     }
 }

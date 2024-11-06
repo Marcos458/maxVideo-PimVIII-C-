@@ -26,12 +26,14 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<ApplicationDbContext>(
-        options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database"))
+        options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+builder.Services.AddScoped<IConteudoRepository, ConteudoRepository>();
+
 
 var app = builder.Build();
 

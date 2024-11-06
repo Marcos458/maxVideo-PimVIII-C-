@@ -3,8 +3,7 @@ using maxVideo1.Interfaces;
 using maxVideo1.Model;
 using maxVideo1.Repositorie;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data.SqlTypes;
+
 
 namespace maxVideo1.Controllers
 {
@@ -12,10 +11,9 @@ namespace maxVideo1.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class ConteudoController(INterfaceConteudo conteudoRepository) : ControllerBase
+    public class ConteudoController(IConteudoRepository conteudoRepository) : ControllerBase
     {
-        private readonly INterfaceConteudo _conteudoRepository = conteudoRepository;
-
+        private readonly IConteudoRepository _conteudoRepository = conteudoRepository;
 
         [HttpGet("{id}")]
         public async Task<ConteudoModel> GetConteudoByIdAsync(int id)
@@ -31,12 +29,19 @@ namespace maxVideo1.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult<ConteudoModel>> AddConteudoAsync(ConteudoModel conteudo)
+        [HttpPost("upload")]
+        public async Task<ActionResult<ConteudoModel>> AddConteudoAsync(IFormFile videoFile, [FromForm] ConteudoModel conteudo)
         {
-            await _conteudoRepository.AddConteudoAsync(conteudo);
-            await _conteudoRepository.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetConteudoByIdAsync), new { id = conteudo.Id }, conteudo);
+
+            try { var createdConteudo = await _conteudoRepository.AddConteudoAsync(conteudo, videoFile); 
+                return CreatedAtAction(nameof(GetConteudoByIdAsync), new { id = createdConteudo.Id }, createdConteudo);
+            } 
+            
+            catch (ArgumentException ex) 
+
+            { 
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -44,7 +49,7 @@ namespace maxVideo1.Controllers
         public async Task UpdateConteudoAsync(ConteudoModel conteudo)
         {
             await _conteudoRepository.UpdateConteudoAsync(conteudo);
-            await _conteudoRepository.SaveChangesAsync();
+            return;
         }
 
 

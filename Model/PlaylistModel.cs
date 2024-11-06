@@ -9,7 +9,9 @@ namespace maxVideo1.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public required string Name { get; set; }
+
         public required UsuarioModel User { get; set; } // Propriedade de navegação
+
         public required List<ConteudoModel> Conteudos { get; set; }
 
     }

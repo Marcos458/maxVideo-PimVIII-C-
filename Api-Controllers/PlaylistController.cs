@@ -1,6 +1,5 @@
 ﻿using maxVideo1.Interfaces;
 using maxVideo1.Model;
-using maxVideo1.Repositorie;
 using Microsoft.AspNetCore.Mvc;
 
 namespace maxVideo1.Controllers
